@@ -7,14 +7,22 @@ using namespace std;
 Vector2f ballVelocity;
 bool server = false;
 
+Font font;
+Text text;
+int player1Score = 0;
+int player2Score = 0;
+
+
 bool changeBallDir = true;
 float randNumx;
+bool aiEnabled = false;
 
-const Keyboard::Key controls[4] = {
+const Keyboard::Key controls[5] = {
 	Keyboard::A,   // Player1 UP
 	Keyboard::Z,   // Player1 Down
 	Keyboard::Up,  // Player2 UP
-	Keyboard::Down // Player2 Down
+	Keyboard::Down, // Player2 Down
+	Keyboard::G,   // Enable/Disable AI
 };
 const Vector2f paddleSize(25.f, 100.f);
 const float ballRadius = 10.f;
@@ -24,6 +32,8 @@ const float paddleSpeed = 400.f;
 
 CircleShape ball;
 RectangleShape paddles[2];
+
+
 
 
 void SetPaddleandBallPos() {
@@ -58,9 +68,27 @@ void Load() {
 	ball.setOrigin(ballRadius / 2, ballRadius / 2);
 
 	SetPaddleandBallPos();
-}
 
+
+	// Load font-face from res dir
+	font.loadFromFile("res/fonts/RobotoMono-Regular.ttf");
+	// Set text element to use font
+	text.setFont(font);
+	// set the character size to 24 pixels
+	text.setCharacterSize(24);
+	// Set Initial Score Text
+	text.setString(to_string(player1Score) + " : " + to_string(player2Score));
+	// Keep Score Text Centered
+	text.setPosition((gameWidth * .5f) - (text.getLocalBounds().width * .5f), 0);
+}
+//
 void Reset() {
+
+	// Update Score Text
+	text.setString(to_string(player1Score) + " : " + to_string(player2Score));
+	// Keep Score Text Centered
+	text.setPosition((gameWidth * .5f) - (text.getLocalBounds().width * .5f), 0);
+
 	SetPaddleandBallPos();
 }
 
@@ -78,6 +106,10 @@ void Update(RenderWindow &window) {
 		}
 	}
 
+
+
+
+
 	// Quit Via ESC Key
 	if (Keyboard::isKeyPressed(Keyboard::Escape)) {
 		window.close();
@@ -94,15 +126,26 @@ void Update(RenderWindow &window) {
 	paddles[0].move(0, leftDirection * paddleSpeed * dt);
 
 
-	// handle right paddle movement
-	float rightDirection = 0.0f;
-	if (Keyboard::isKeyPressed(controls[2])) {
-		rightDirection--;
+	//Enable/Disable AI
+	if (Keyboard::isKeyPressed(controls[4])) {
+		aiEnabled = !aiEnabled;
 	}
-	if (Keyboard::isKeyPressed(controls[3])) {
-		rightDirection++;
+
+	if (!aiEnabled) {
+		// handle right paddle movement
+		float rightDirection = 0.0f;
+		if (Keyboard::isKeyPressed(controls[2])) {
+			rightDirection--;
+		}
+		if (Keyboard::isKeyPressed(controls[3])) {
+			rightDirection++;
+		}
+		paddles[1].move(0, rightDirection * paddleSpeed * dt);
 	}
-	paddles[1].move(0, rightDirection * paddleSpeed * dt);
+	else {
+		paddles[1].move(0, (ball.getPosition().y - paddles[1].getPosition().y) + paddleSpeed * dt);
+	}
+	
 
 
 
@@ -127,10 +170,12 @@ void Update(RenderWindow &window) {
 	}
 	else if (bx > gameWidth) {
 		// right wall
+		player2Score++;
 		Reset();
 	}
 	else if (bx < 0) {
 		// left wall
+		player1Score++;
 		Reset();
 	}
 	else if (
@@ -148,11 +193,11 @@ void Update(RenderWindow &window) {
 	}
 	else if (
 		//ball is inline or behind paddle
-		bx < gameWidth - paddleSize.x &&
+		bx > gameWidth - paddleSize.x &&
 		//AND ball is below top edge of paddle
-		bx > paddles[1].getPosition().x - (paddleSize.x * 0.5) &&
+		by > paddles[1].getPosition().y - (paddleSize.y * 0.5) &&
 		//AND ball is above bottom edge of paddle
-		bx < paddles[1].getPosition().x + (paddleSize.x * 0.5)
+		by < paddles[1].getPosition().y + (paddleSize.y * 0.5)
 		) {
 		// bounce off left paddle
 		ballVelocity.x *= -1.1f;
@@ -175,6 +220,7 @@ void Render(RenderWindow &window) {
 	window.draw(paddles[0]);
 	window.draw(paddles[1]);
 	window.draw(ball);
+	window.draw(text);
 }
 
 //void Render() {
