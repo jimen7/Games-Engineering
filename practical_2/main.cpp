@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "ship.h"
+//#include "bullet.h"
 
 using namespace sf;
 using namespace std;
@@ -132,6 +133,10 @@ void Update(RenderWindow &window) {
 		window.close();
 	}
 
+
+
+
+
 	/*
 	// handle left paddle movement
 	float leftDirection = 0.0f;
@@ -236,7 +241,7 @@ void Render(RenderWindow &window) {
 
 
 int main() {
-	RenderWindow window(VideoMode(gameWidth, gameHeight), "SPAVE INVADERS");
+	RenderWindow window(VideoMode(gameWidth, gameHeight), "SPACE INVADERS");
 	Load();
 	while (window.isOpen()) {
 		window.clear();
