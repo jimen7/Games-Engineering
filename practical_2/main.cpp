@@ -8,11 +8,17 @@ using namespace std;
 sf::Texture spritesheet;
 sf::Sprite invader;
 
+int invaders_rows = 5;
+int invaders_columns = 10;
+float initialXpos = 100.0f;
+float initialYpos = 100.0f;
+float invaderSpace = 60.0f;
 
 std::vector<Ship *> ships;
 
 Vector2f ballVelocity;
 bool server = false;
+
 
 Font font;
 Text text;
@@ -68,15 +74,22 @@ void Load() {
 	if (!spritesheet.loadFromFile("res/img/invaders_sheet.png")) {
 		cerr << "Failed to load spritesheet!" << std::endl;
 	}
-	invader.setTexture(spritesheet);
-	invader.setTextureRect(sf::IntRect(0, 0, 32, 32));
+	//invader.setTexture(spritesheet);
+	//invader.setTextureRect(sf::IntRect(0, 0, 32, 32));
 
-	Invader* inv = new Invader(sf::IntRect(0, 0, 32, 32), { 100,100 });
-	ships.push_back(inv);
+	//Invader* inv = new Invader(sf::IntRect(0, 0, 32, 32), { 100,100 });
+	//ships.push_back(inv);
 
-
-
-
+	for (int r = 0; r < invaders_rows; r++) {				
+		auto rect = IntRect(0, 0, 32, 32);
+		for (int c = 0; c < invaders_columns; c++) {
+			Vector2f position = { initialXpos + c*invaderSpace , initialYpos};
+			auto inv = new Invader(rect, position);
+			Invader::speed = 20.0f;
+			ships.push_back(inv);
+		}
+		initialYpos = initialYpos + 50.0f;
+	}
 }
 //
 void Reset() {
@@ -107,12 +120,12 @@ void Update(RenderWindow &window) {
 	};
 
 
-	/*
+	
 	// Quit Via ESC Key
 	if (Keyboard::isKeyPressed(Keyboard::Escape)) {
 		window.close();
 	}
-
+	/*
 	// handle left paddle movement
 	float leftDirection = 0.0f;
 	if (Keyboard::isKeyPressed(controls[0])) {
@@ -207,7 +220,7 @@ void Update(RenderWindow &window) {
 
 void Render(RenderWindow &window) {
 	// Draw Everything
-	window.draw(invader);
+	//window.draw(invader);
 	for (const auto s : ships) {
 		window.draw(*s);
 	}
