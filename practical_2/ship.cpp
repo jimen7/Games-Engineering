@@ -32,6 +32,10 @@ Invader::Invader(sf::IntRect ir, sf::Vector2f pos) : Ship(ir) {
 	setPosition(pos);
 }
 
+
+bool Invader::direction;
+float Invader::speed;
+
 void Invader::Update(const float &dt) {
 	Ship::Update(dt);
 
@@ -47,5 +51,29 @@ void Invader::Update(const float &dt) {
 
 }
 
-bool Invader::direction;
-float Invader::speed;
+
+
+Player::Player() : Ship(IntRect(160, 32, 32, 32)) {
+	setPosition({ gameHeight * .5f, gameHeight - 32.f });
+}
+
+
+float Player::playerSpeed;
+
+void Player::Update(const float &dt) {
+	Ship::Update(dt);
+	float leftDirection = 0.0f;
+	//Move left
+	if (Keyboard::isKeyPressed(Keyboard::Left)) {
+		leftDirection--;
+	}
+	//Move Right
+	if (Keyboard::isKeyPressed(Keyboard::Right)) {
+		leftDirection++;
+	}
+	//if (getPosition().x < gameWidth) {
+		move(leftDirection * playerSpeed * dt, 0);
+	//}
+	
+}
+

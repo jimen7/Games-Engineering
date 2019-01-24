@@ -24,3 +24,11 @@ public:
 	Invader();
 	void Update(const float &dt) override;
 };
+
+
+class Player : public Ship {
+public:
+	Player();
+	static float playerSpeed;
+	void Update(const float &dt) override;
+};

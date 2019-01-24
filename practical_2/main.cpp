@@ -11,7 +11,7 @@ sf::Sprite invader;
 int invaders_rows = 5;
 int invaders_columns = 10;
 float initialXpos = 100.0f;
-float initialYpos = 100.0f;
+float initialYpos = 50.0f;
 float invaderSpace = 60.0f;
 
 std::vector<Ship *> ships;
@@ -46,7 +46,7 @@ const float paddleSpeed = 400.f;
 CircleShape ball;
 RectangleShape paddles[2];
 
-
+Player* play;
 
 
 void SetPaddleandBallPos() {
@@ -80,6 +80,7 @@ void Load() {
 	//Invader* inv = new Invader(sf::IntRect(0, 0, 32, 32), { 100,100 });
 	//ships.push_back(inv);
 
+	//Create Invaders
 	for (int r = 0; r < invaders_rows; r++) {				
 		auto rect = IntRect(0, 0, 32, 32);
 		for (int c = 0; c < invaders_columns; c++) {
@@ -90,6 +91,9 @@ void Load() {
 		}
 		initialYpos = initialYpos + 50.0f;
 	}
+
+	play = new Player();
+	Player::playerSpeed = 300.0f;
 }
 //
 void Reset() {
@@ -119,12 +123,15 @@ void Update(RenderWindow &window) {
 		s->Update(dt);
 	};
 
+	
+	play->Update(dt);
 
 	
 	// Quit Via ESC Key
 	if (Keyboard::isKeyPressed(Keyboard::Escape)) {
 		window.close();
 	}
+
 	/*
 	// handle left paddle movement
 	float leftDirection = 0.0f;
@@ -224,11 +231,12 @@ void Render(RenderWindow &window) {
 	for (const auto s : ships) {
 		window.draw(*s);
 	}
+	window.draw(*play);			//WHY DOES IT WORK WITH A POINTER
 }
 
 
 int main() {
-	RenderWindow window(VideoMode(gameWidth, gameHeight), "PONG");
+	RenderWindow window(VideoMode(gameWidth, gameHeight), "SPAVE INVADERS");
 	Load();
 	while (window.isOpen()) {
 		window.clear();
