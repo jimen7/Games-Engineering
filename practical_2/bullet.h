@@ -25,15 +25,6 @@ protected:
 };
 
 
-
-
-
-
-
-
-
-
-
 //class Bullet : public sf::Sprite {
 //public:
 //	void Update(const float &dt);

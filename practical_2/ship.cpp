@@ -1,7 +1,7 @@
 //ship.cpp
 #include "ship.h"
 #include "game.h"
-//#include "bullet.h"
+#include "bullet.h"
 using namespace sf;
 using namespace std;
 
@@ -15,15 +15,30 @@ Ship::Ship(IntRect ir) : Sprite() {
 	_sprite = ir;
 	setTexture(spritesheet);
 	setTextureRect(_sprite);
+	_exploded = false;
 };
 
-void Ship::Update(const float &dt) {}
+void Ship::Update(const float &dt) {
+	if (_exploded) {
+		_explosiontime -= dt;
+	}
+	if (_explosiontime <= 0.f) {
+		setColor(Color(0, 0, 0, 0));
+	}
+}
 
 //Define the ship deconstructor. 
 //Although we set this to pure virtual, we still have to define it.
 Ship::~Ship() = default;
 
+void Ship::Explode() {
+	_exploded = true;
+}
 
+
+bool Ship::isExploded() const {
+	return _exploded;
+}
 
 //Invader
 Invader::Invader() : Ship() {}
@@ -50,6 +65,19 @@ void Invader::Update(const float &dt) {
 		}
 	}
 
+	static float firetime = 0.f;
+	firetime -= dt;
+	if (firetime <= 0 && rand() % 100 == 0 && !_exploded) {
+		Bullet::Fire(getPosition(), true);
+		firetime = 4.f + (rand() % 60);
+	}
+
+}
+
+
+void Invader::Explode() {
+	Ship::Explode();
+	setTextureRect(IntRect(128, 32, 32, 32));
 }
 
 
@@ -63,29 +91,34 @@ float Player::playerSpeed;
 
 void Player::Update(const float &dt) {
 	Ship::Update(dt);
-	float leftDirection = 0.0f;
+	float direction = 0.0f;
 	//Move left
 	if (Keyboard::isKeyPressed(Keyboard::Left)) {
-		leftDirection--;
+		direction--;
 	}
 	//Move Right
 	if (Keyboard::isKeyPressed(Keyboard::Right)) {
-		leftDirection++;
+		direction++;
 	}
 	//if (getPosition().x < gameWidth) {
-		move(leftDirection * playerSpeed * dt, 0);
+		move(direction * playerSpeed * dt, 0);
 	//}
 
-		//ATTEmpt 1 at bullets
-		//static vector<Bullet*> bullets;
+		
 
-		//// Player fires Bullet
-		//if (Keyboard::isKeyPressed(Keyboard::Space)) {
-		//	bullets.push_back(new Bullet(getPosition(), false));
-		//}
-		//for (const auto s : bullets) {
-		//	s->Update(dt);
-		//}
+		//Bullets
+		static float firetime = 0.f;
+		firetime -= dt;
+		if (firetime <= 0 && Keyboard::isKeyPressed(Keyboard::Space)) {
+			Bullet::Fire(getPosition(), false);
+			firetime = 0.7f;
+		}
 	
+}
+
+
+void Player::Explode() {
+	Ship::Explode();
+	setTextureRect(IntRect(0, 32, 32, 32));
 }
 
