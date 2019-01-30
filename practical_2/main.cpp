@@ -74,8 +74,11 @@ void Load() {
 }
 //
 void Reset() {
-	ships.clear();
+	for (auto &s : ships) {
+		delete s;
+	};
 
+	ships.clear();
 	Load();
 
 }
@@ -83,7 +86,9 @@ void Reset() {
 
 void Update(RenderWindow &window) {
 
-
+	if (Keyboard::isKeyPressed(Keyboard::R)) {
+		Reset();
+	}
 
 	
 	// Reset clock, recalculate deltatime
@@ -116,9 +121,7 @@ void Update(RenderWindow &window) {
 		window.close();
 	}
 
-	if (Keyboard::isKeyPressed(Keyboard::R)) {
-		Reset();
-	}
+	
 
 	
 
