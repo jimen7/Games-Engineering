@@ -27,6 +27,7 @@ Player* player;
 
 void Load() {
 	player = new Player();
+	player->setPosition({gameWidth/2,gameHeight/2});
 	entities.push_back(player);
 }
 //
@@ -54,7 +55,9 @@ void Update(RenderWindow &window) {
 		window.close();
 	}
 
-
+	for (auto &e : entities) {
+		e->update(dt);
+	}
 
 }
 
@@ -63,7 +66,9 @@ void Update(RenderWindow &window) {
 
 void Render(RenderWindow &window) {
 	// Draw Everything
-	Player::render(window);
+	for (auto &e : entities) {
+		e->render(window);
+	}
 
 }
 
@@ -72,7 +77,7 @@ void Render(RenderWindow &window) {
 //}
 
 int main() {
-	RenderWindow window(VideoMode(gameWidth, gameHeight), "PONG");
+	RenderWindow window(VideoMode(gameWidth, gameHeight), "TILE ENGINE");
 	Load();
 	while (window.isOpen()) {
 		window.clear();

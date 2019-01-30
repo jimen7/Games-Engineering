@@ -3,27 +3,32 @@ using namespace sf;
 using namespace std;
 
 void Player::update(double dt) {
+
+
+	//Trying Vector to see if it accepts multoplocation with dt for move function
+	sf::Vector2f displacement = { 0.f,0.f, };
 	//Move in four directions based on keys
-	float yDirection = 0.0f;
+	float xDirection = 0.0f;
 	//Move Down
 	if (Keyboard::isKeyPressed(Keyboard::Left)) {
-		yDirection--;
+		//xDirection--;
+		displacement.x--;
 	}
 	//Move Up
 	if (Keyboard::isKeyPressed(Keyboard::Right)) {
-		yDirection++;
+		displacement.x++;
 	}
 
-	float xDirection = 0.0f;
-	if (Keyboard::isKeyPressed(Keyboard::Left)) {
-		xDirection--;
+	float yDirection = 0.0f;
+	if (Keyboard::isKeyPressed(Keyboard::Up)) {
+		displacement.y--;
 	}
 	//Move Right
-	if (Keyboard::isKeyPressed(Keyboard::Right)) {
-		xDirection++;
+	if (Keyboard::isKeyPressed(Keyboard::Down)) {
+		displacement.y++;
 	}
 
-	move({ xDirection * 200.f /** dt*/,yDirection * 200.f /** dt*/ });
+	move(displacement*float(dt)*_speed);
 
 		Entity::update(dt);
 }
