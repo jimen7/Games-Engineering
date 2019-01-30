@@ -60,7 +60,7 @@ void Invader::Update(const float &dt) {
 	if ((direction && getPosition().x > gameWidth - 16) ||
 		(!direction && getPosition().x < 16)) {
 		direction = !direction;
-		for (int i = 0; i < ships.size(); ++i) {
+		for (int i = 0; i < ships.size()-1; ++i) {
 			ships[i]->move(0, 24);
 		}
 	}

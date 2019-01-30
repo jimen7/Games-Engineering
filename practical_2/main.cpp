@@ -74,7 +74,9 @@ void Load() {
 }
 //
 void Reset() {
+	ships.clear();
 
+	Load();
 
 }
 
@@ -97,7 +99,10 @@ void Update(RenderWindow &window) {
 	}
 
 	for (auto &s : ships) {
-		s->Update(dt);
+		//if (s != play) {
+			s->Update(dt);
+		//}
+			
 	};
 
 	
@@ -111,7 +116,9 @@ void Update(RenderWindow &window) {
 		window.close();
 	}
 
-
+	if (Keyboard::isKeyPressed(Keyboard::R)) {
+		Reset();
+	}
 
 	
 
