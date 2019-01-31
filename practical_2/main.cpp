@@ -11,9 +11,9 @@ sf::Texture spritesheet;
 sf::Sprite invader;
 
 
-float initialXpos = 100.0f;
+const float initialXpos = 100.0f;
 float initialYpos = 50.0f;
-float invaderSpace = 60.0f;
+const float invaderSpace = 60.0f;
 
 std::vector<Ship *> ships;
 
@@ -55,6 +55,7 @@ void Load() {
 	//Invader* inv = new Invader(sf::IntRect(0, 0, 32, 32), { 100,100 });
 	//ships.push_back(inv);
 
+	initialYpos = 50.0f;
 	//Create Invaders
 	for (int r = 0; r < invaders_rows; r++) {				
 		auto rect = IntRect(0, 0, 32, 32);
@@ -79,6 +80,7 @@ void Reset() {
 	};
 
 	ships.clear();
+	play = nullptr;
 	Load();
 
 }
