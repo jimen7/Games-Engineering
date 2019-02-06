@@ -49,7 +49,7 @@ void Load() {
 		// Set text element to use font
 		text.setFont(font);
 		// set the character size to 24 pixels
-		text.setCharacterSize(24);
+		text.setCharacterSize(18);
 		text.setColor(Color::Black);
 		//text.setFillColor(Color::Black);
 		// Keep Text Centered
