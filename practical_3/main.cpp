@@ -39,8 +39,10 @@ void Load() {
 		for (size_t x = 0; x < ls::getWidth(); ++x) {
 			cout << ls::getTile({ x, y });
 		}
-		cout << endl;
+		cout << "///////////////////////" << endl;
 	}
+
+
 
 }
 //
