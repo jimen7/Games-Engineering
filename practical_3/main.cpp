@@ -1,6 +1,8 @@
 #include <SFML/Graphics.hpp>
 #include "Entity.h"
 #include "Player.h"
+#include "LevelSystem.h"
+#include <iostream>
 
 using namespace sf;
 using namespace std;
@@ -29,6 +31,17 @@ void Load() {
 	player = new Player();
 	player->setPosition({gameWidth/2,gameHeight/2});
 	entities.push_back(player);
+
+
+	ls::loadLevelFile("res/levels/maze_2.txt");
+
+	for (size_t y = 0; y < ls::getHeight(); ++y) {
+		for (size_t x = 0; x < ls::getWidth(); ++x) {
+			cout << ls::getTile({ x, y });
+		}
+		cout << endl;
+	}
+
 }
 //
 void Reset() {
@@ -65,6 +78,9 @@ void Update(RenderWindow &window) {
 
 
 void Render(RenderWindow &window) {
+
+	//draw input level
+	ls::render(window);
 	// Draw Everything
 	for (auto &e : entities) {
 		e->render(window);
