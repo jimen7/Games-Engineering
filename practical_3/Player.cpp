@@ -2,6 +2,11 @@
 using namespace sf;
 using namespace std;
 
+
+bool Player::validMove(sf::Vector2f pos) {
+	return (ls::getTileAt(pos) != ls::WALL);
+}
+
 void Player::update(double dt) {
 
 
@@ -9,6 +14,8 @@ void Player::update(double dt) {
 	sf::Vector2f displacement = { 0.f,0.f, };
 	//Move in four directions based on keys
 	float xDirection = 0.0f;
+
+	
 	//Move Down
 	if (Keyboard::isKeyPressed(Keyboard::Left)) {
 		//xDirection--;
@@ -28,9 +35,19 @@ void Player::update(double dt) {
 		displacement.y++;
 	}
 
-	move(displacement*float(dt)*_speed);
+	//Only move with the keyboard if you are not with world tiles
+
+		move(displacement*float(dt)*_speed);
+
+
+		
+
+		
+
+	
 
 		Entity::update(dt);
+
 }
 
 Player::Player()

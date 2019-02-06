@@ -3,9 +3,16 @@
 #include "Player.h"
 #include "LevelSystem.h"
 #include <iostream>
+#include <time.h> //Test to get time
+#include <chrono>
 
 using namespace sf;
 using namespace std;
+
+bool playedBefore = false;
+
+Text text;
+Font font;
 
 
 
@@ -20,38 +27,67 @@ const Keyboard::Key controls[5] = {
 
 const int gameWidth = 800;
 const int gameHeight = 600;
+time_t beginTime = NULL;
 
 std::vector<Entity*> entities;
 
 
 Player* player;
 
+chrono::steady_clock::time_point start_time;
+
+chrono::steady_clock::time_point current_time;
+
+_int64 best_time;
 
 void Load() {
-	player = new Player();
+	if (!playedBefore){
+		player = new Player();
+		ls::loadLevelFile("res/levels/maze_2.txt");
+		// Load font-face from res dir
+		font.loadFromFile("res/fonts/RobotoMono-Regular.ttf");
+		// Set text element to use font
+		text.setFont(font);
+		// set the character size to 24 pixels
+		text.setCharacterSize(24);
+		text.setColor(Color::Black);
+		//text.setFillColor(Color::Black);
+		// Keep Text Centered
+		text.setPosition((gameWidth * .1f) - (text.getLocalBounds().width * .5f), 0);
+		}
+
+	start_time = chrono::high_resolution_clock::now();
+	
+
+
 	player->setPosition({gameWidth/5.8,gameHeight/4});
 	entities.push_back(player);
 
 
-	ls::loadLevelFile("res/levels/maze_2.txt");
+	
+	////Used to print out maze to cmd
+	//for (size_t y = 0; y < ls::getHeight(); ++y) {
+	//	for (size_t x = 0; x < ls::getWidth(); ++x) {
+	//		cout << ls::getTile({ x, y });
+	//	}
+	//	cout << "///////////////////////" << endl;
+	//}
 
-	for (size_t y = 0; y < ls::getHeight(); ++y) {
-		for (size_t x = 0; x < ls::getWidth(); ++x) {
-			cout << ls::getTile({ x, y });
-		}
-		cout << "///////////////////////" << endl;
-	}
-
-
+	
 
 }
 //
 void Reset() {
-
+	entities.clear();
+	Load();
 }
 
 
 void Update(RenderWindow &window) {
+
+
+
+	current_time = chrono::high_resolution_clock::now();
 	// Reset clock, recalculate deltatime
 	static Clock clock;
 	float dt = clock.restart().asSeconds();
@@ -64,6 +100,15 @@ void Update(RenderWindow &window) {
 		}
 	}
 
+	_int64 total_time = (current_time - start_time).count();
+
+	if (best_time != NULL) {
+		text.setString("Current Time:" + to_string(total_time) + "ms, Best Time:" + to_string(best_time) + "ms");
+	}
+	else {
+		text.setString("Current Time:" + to_string(total_time) + "ms");
+	}
+
 
 	// Quit Via ESC Key
 	if (Keyboard::isKeyPressed(Keyboard::Escape)) {
@@ -72,6 +117,26 @@ void Update(RenderWindow &window) {
 
 	for (auto &e : entities) {
 		e->update(dt);
+	}
+
+	if (!player->validMove(player->getPosition())) {
+		playedBefore = true;
+		Reset();
+	}
+
+	if (ls::getTileAt(player->getPosition()) == ls::END) {
+		playedBefore = true;
+
+		if (best_time != NULL) {
+			if (total_time < best_time) {
+			best_time = total_time;
+			}
+		}
+		else {
+			best_time = total_time;
+		}
+		
+		Reset();
 	}
 
 }
@@ -87,6 +152,7 @@ void Render(RenderWindow &window) {
 	for (auto &e : entities) {
 		e->render(window);
 	}
+	window.draw(text);
 
 }
 
@@ -95,7 +161,7 @@ void Render(RenderWindow &window) {
 //}
 
 int main() {
-	RenderWindow window(VideoMode(gameWidth, gameHeight), "TILE ENGINE");
+	RenderWindow window(VideoMode(gameWidth, gameHeight), "TILE ENGINE MAZE");
 	Load();
 	while (window.isOpen()) {
 		window.clear();
