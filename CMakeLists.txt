@@ -37,7 +37,7 @@ target_link_libraries(PRACTICAL_2 sfml-graphics)
 add_dependencies(PRACTICAL_2 copy_resources)
 
 
-#### Practical 2 ####
+#### Practical 3 ####
 file(GLOB_RECURSE SOURCES practical_3/*.cpp practical_3/*.h)
 add_executable(PRACTICAL_3 ${SOURCES})
 target_include_directories(PRACTICAL_3 PRIVATE ${SFML_INCS})
