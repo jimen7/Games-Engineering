@@ -29,7 +29,7 @@ Player* player;
 
 void Load() {
 	player = new Player();
-	player->setPosition({gameWidth/2,gameHeight/2});
+	player->setPosition({gameWidth/5.8,gameHeight/4});
 	entities.push_back(player);
 
 
