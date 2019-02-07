@@ -2,6 +2,7 @@
 #include "Entity.h"
 #include "Player.h"
 #include "LevelSystem.h"
+#include "Ghost.h"
 #include <iostream>
 #include <time.h> //Test to get time
 #include <chrono>
@@ -32,12 +33,18 @@ time_t beginTime = NULL;
 std::vector<Entity*> entities;
 
 
+std::vector<Ghost*> ghosts;
+
+
 Player* player;
+Ghost* ghost;
 
 
 void Load() {
 	if (!playedBefore){
 		player = new Player();
+		
+		
 		//ls::loadLevelFile("res/levels/maze_2.txt");
 		// Load font-face from res dir
 		font.loadFromFile("res/fonts/RobotoMono-Regular.ttf");
@@ -53,8 +60,16 @@ void Load() {
 	
 
 
+	for (int i = 0; i < 4; i++) {
+		ghost = new Ghost();
+		ghost->setPosition({ gameWidth / 2,gameHeight / 2 });
+		entities.push_back(ghost);
+	}
+
 	player->setPosition({gameWidth/5.8,gameHeight/4});
+	
 	entities.push_back(player);
+	
 
 
 	
