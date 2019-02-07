@@ -2,7 +2,7 @@
 using namespace std;
 using namespace sf;
 
-const Vector2f Entity::getPosition() { return _position+Vector2f(0.0f,30.0f); }
+const Vector2f Entity::getPosition() { return _position + Vector2f(0.0f, 30.0f); }
 
 void Entity::setPosition(const Vector2f &pos) { _position = pos; }
 

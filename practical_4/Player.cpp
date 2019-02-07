@@ -3,6 +3,8 @@ using namespace sf;
 using namespace std;
 
 
+
+
 bool Player::validMove(sf::Vector2f pos) {
 	return (ls::getTileAt(pos) != ls::WALL);
 }
@@ -18,7 +20,6 @@ void Player::update(double dt) {
 	
 	//Move Down
 	if (Keyboard::isKeyPressed(Keyboard::Left)) {
-		//xDirection--;
 		displacement.x--;
 	}
 	//Move Up
@@ -37,13 +38,13 @@ void Player::update(double dt) {
 
 	//Only move with the keyboard if you are not with world tiles
 
+
 	Vector2f pos = displacement * _speed * float(dt);
 
 
-	if (validMove(getPosition() + pos)) {
+	//if (validMove(getPosition() + pos)) {
 		move(displacement*float(dt)*_speed);
-		}
-		
+	//}
 
 
 		
@@ -58,7 +59,7 @@ void Player::update(double dt) {
 
 Player::Player()
 	: _speed(200.0f), Entity(make_unique<CircleShape>(25.f)) {
-	_shape->setFillColor(Color::Magenta);
+	_shape->setFillColor(Color::Yellow);
 	_shape->setOrigin(Vector2f(25.f, 25.f));
 }
 

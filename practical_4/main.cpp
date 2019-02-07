@@ -34,16 +34,11 @@ std::vector<Entity*> entities;
 
 Player* player;
 
-chrono::steady_clock::time_point start_time;
-
-chrono::steady_clock::time_point current_time;
-
-_int64 best_time;
 
 void Load() {
 	if (!playedBefore){
 		player = new Player();
-		ls::loadLevelFile("res/levels/maze_2.txt");
+		//ls::loadLevelFile("res/levels/maze_2.txt");
 		// Load font-face from res dir
 		font.loadFromFile("res/fonts/RobotoMono-Regular.ttf");
 		// Set text element to use font
@@ -55,8 +50,6 @@ void Load() {
 		// Keep Text Centered
 		text.setPosition((gameWidth * .1f) - (text.getLocalBounds().width * .5f), 0);
 		}
-
-	start_time = chrono::high_resolution_clock::now();
 	
 
 
@@ -85,9 +78,6 @@ void Reset() {
 
 void Update(RenderWindow &window) {
 
-
-
-	current_time = chrono::high_resolution_clock::now();
 	// Reset clock, recalculate deltatime
 	static Clock clock;
 	float dt = clock.restart().asSeconds();
@@ -98,15 +88,6 @@ void Update(RenderWindow &window) {
 			window.close();
 			return;
 		}
-	}
-
-	_int64 total_time = (current_time - start_time).count();
-
-	if (best_time != NULL) {
-		text.setString("Current Time:" + to_string(total_time) + "ms, Best Time:" + to_string(best_time) + "ms");
-	}
-	else {
-		text.setString("Current Time:" + to_string(total_time) + "ms");
 	}
 
 
@@ -124,20 +105,11 @@ void Update(RenderWindow &window) {
 	//	Reset();
 	//}
 
-	if (ls::getTileAt(player->getPosition()) == ls::END) {
-		playedBefore = true;
-
-		if (best_time != NULL) {
-			if (total_time < best_time) {
-			best_time = total_time;
-			}
-		}
-		else {
-			best_time = total_time;
-		}
-		
-		Reset();
-	}
+	//if (ls::getTileAt(player->getPosition()) == ls::END) {
+	//	playedBefore = true;
+	//	
+	//	Reset();
+	//}
 
 }
 
@@ -147,7 +119,7 @@ void Update(RenderWindow &window) {
 void Render(RenderWindow &window) {
 
 	//draw input level
-	ls::render(window);
+	//ls::render(window);
 	// Draw Everything
 	for (auto &e : entities) {
 		e->render(window);
