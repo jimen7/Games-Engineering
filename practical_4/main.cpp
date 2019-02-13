@@ -99,7 +99,7 @@ void Load(RenderWindow &window) {
 	*/
 
 
-	Renderer::initialise(window);
+	//Renderer::initialise(window);
 
 	// Load Scene-Local Assets
 	gameScene.reset(new GameScene());
@@ -108,6 +108,7 @@ void Load(RenderWindow &window) {
 	menuScene->load();
 	// Start at main menu
 	activeScene = menuScene;
+	//activeScene = gameScene;
 	
 
 }
@@ -161,7 +162,8 @@ void Render(RenderWindow &window) {
 
 	/*em.render();*/
 	activeScene->render();
-	Renderer::render();
+	Renderer::initialise(window);
+	Renderer::render();			//DEBUG HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
 
 }
 
