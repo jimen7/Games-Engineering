@@ -56,4 +56,5 @@ Ghost::Ghost()
 
 void Ghost::render(sf::RenderWindow &window) const {
 	window.draw(*_shape);
+	Renderer::queue(_shape.get());
 }

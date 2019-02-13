@@ -50,7 +50,7 @@ std::shared_ptr<Entity> ghost;
 
 
 
-void Load() {
+void Load(RenderWindow &window) {
 	if (!playedBefore){
 
 		////Normal Pointer
@@ -94,17 +94,10 @@ void Load() {
 
 	//Shared POinter
 	em.list.push_back(player);
-	
 
 
-	
-	////Used to print out maze to cmd
-	//for (size_t y = 0; y < ls::getHeight(); ++y) {
-	//	for (size_t x = 0; x < ls::getWidth(); ++x) {
-	//		cout << ls::getTile({ x, y });
-	//	}
-	//	cout << "///////////////////////" << endl;
-	//}
+	Renderer::initialise(window);
+
 
 	
 
@@ -112,7 +105,7 @@ void Load() {
 //
 void Reset() {
 	//entities.clear();
-	Load();
+	//Load();
 }
 
 
@@ -156,14 +149,16 @@ void Render(RenderWindow &window) {
 	Renderer::queue(&text);
 	//Renderer::render();
 
-	em.render(window);
+
+	em.render();
+	Renderer::render();
 
 }
 
 
 int main() {
 	RenderWindow window(VideoMode(gameWidth, gameHeight), "PAC-MAN");
-	Load();
+	Load(window);
 	while (window.isOpen()) {
 		window.clear();
 		Update(window);

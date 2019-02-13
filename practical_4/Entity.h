@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include "system_renderer.h"
 #include <memory>
 
 class Entity {
@@ -16,6 +17,12 @@ public:
 	virtual void update(const double dt);
 	virtual void render(sf::RenderWindow &window) const = 0;
 
+	void render();
+
+	//virtual void render() const;
+
+
+
 	const sf::Vector2f getPosition();
 	void setPosition(const sf::Vector2f &pos);
 	void move(const sf::Vector2f &pos);
@@ -25,5 +32,5 @@ public:
 struct EntityManager {
 	std::vector<std::shared_ptr<Entity>> list;
 	void update(double dt);
-	void render(sf::RenderWindow &window);
+	void render();
 };

@@ -1,6 +1,7 @@
 #pragma once
 #include "entity.h"
 #include "LevelSystem.h"
+#include "system_renderer.h"
 
 class Player : public Entity {
 private:

@@ -12,14 +12,21 @@ void Entity::update(const double dt) {
 	_shape->setPosition(_position);
 }
 
+
 Entity::Entity(unique_ptr<Shape> s) : _shape(std::move(s)) {}
 
 
-void EntityManager::render(sf::RenderWindow &window) {
+void Entity::render() {
+	Renderer::queue(_shape.get());
+}
+
+void EntityManager::render() {	//was working
 	for (auto &e : list) {
-		e->render(window);
+		e->render();
 	}
 }
+
+
 
 void EntityManager::update(double dt) {
 	for (auto &e : list) {

@@ -11,5 +11,5 @@ void Scene::update(double dt) {
 //	return ;
 //}
 
-//void Scene::render() { _ents.render(); }		//This does not work, it should not work, but it's given to us. Why?
+void Scene::render() { _ents.render(); }		//This does not work, it should not work, but it's given to us. Why?
 
