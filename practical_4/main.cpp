@@ -7,6 +7,7 @@
 #include <time.h> //Test to get time
 #include <chrono>
 #include "system_renderer.h"
+#include "pacman.h"
 
 using namespace sf;
 using namespace std;
@@ -15,7 +16,6 @@ bool playedBefore = false;
 
 Text text;
 Font font;
-
 
 
 
@@ -51,8 +51,9 @@ std::shared_ptr<Entity> ghost;
 
 
 void Load(RenderWindow &window) {
-	if (!playedBefore){
 
+	/*
+	if (!playedBefore){
 		////Normal Pointer
 		//player = new Player();
 
@@ -95,10 +96,18 @@ void Load(RenderWindow &window) {
 	//Shared POinter
 	em.list.push_back(player);
 
+	*/
+
 
 	Renderer::initialise(window);
 
-
+	// Load Scene-Local Assets
+	gameScene.reset(new GameScene());
+	menuScene.reset(new MenuScene());
+	gameScene->load();
+	menuScene->load();
+	// Start at main menu
+	activeScene = menuScene;
 	
 
 }
@@ -111,25 +120,27 @@ void Reset() {
 
 void Update(RenderWindow &window) {
 
-	// Reset clock, recalculate deltatime
+	//// Reset clock, recalculate deltatime
+	//static Clock clock;
+	//float dt = clock.restart().asSeconds();
+	//// check and consume events
+	//Event event;
+	//while (window.pollEvent(event)) {
+	//	if (event.type == Event::Closed) {
+	//		window.close();
+	//		return;
+	//	}
+	//}
+	//em.update(dt);
+
 	static Clock clock;
 	float dt = clock.restart().asSeconds();
-	// check and consume events
-	Event event;
-	while (window.pollEvent(event)) {
-		if (event.type == Event::Closed) {
-			window.close();
-			return;
-		}
-	}
-
+	activeScene->update(dt);
 
 	// Quit Via ESC Key
 	if (Keyboard::isKeyPressed(Keyboard::Escape)) {
 		window.close();
 	}
-
-	em.update(dt);
 
 
 
@@ -140,16 +151,16 @@ void Update(RenderWindow &window) {
 
 void Render(RenderWindow &window) {
 
-	// Draw Everything using normal pointers
-	//for (auto &e : entities) {
-	//	e->render(window);
-	//}
-	//window.draw(text);
-	Renderer::queue(&text);
-	//Renderer::render();
+	////// Draw Everything using normal pointers
+	//////for (auto &e : entities) {
+	//////	e->render(window);
+	//////}
+
+	//Renderer::queue(&text);
 
 
-	em.render();
+	/*em.render();*/
+	activeScene->render();
 	Renderer::render();
 
 }

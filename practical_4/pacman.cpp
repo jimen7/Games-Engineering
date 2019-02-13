@@ -6,10 +6,19 @@ std::vector<std::shared_ptr<Entity>> ghosts;
 
 int ghostCount = 4;
 
+//NEED TO REDIFINE THIS AS THEY ARE EXTERN'D
+std::shared_ptr<Scene> gameScene;
+std::shared_ptr<Scene> menuScene;
+std::shared_ptr<Scene> activeScene;
+
 void MenuScene::update(double dt) {
+
+	if (Keyboard::isKeyPressed(Keyboard::Space)) {
+		activeScene = gameScene;
+	}
 	Scene::update(dt);
 	//stringstream stream;
-	text.setString("Almost Pacman");
+	text.setString("Almost Pacman, Press Space to Continue");
 }
 
 void MenuScene::render() {
@@ -59,6 +68,29 @@ void GameScene::load() {
 	
 
 		respawn();
+}
+
+
+void GameScene::render() {
+	ls::render(Renderer::getWindow()); //After 20 different things this works, ask Sam why
+	Scene::render();
+}
+
+
+void GameScene::update(double dt) {
+	// Return to main menu
+	if (Keyboard::isKeyPressed(Keyboard::Tab)) {
+		activeScene = menuScene;
+	}
+
+	// Reset game when ghost hists pacman
+	for (auto& g : ghosts) {
+		if (length(g->getPosition() - player->getPosition()) < 30.f) {
+			respawn();
+		}
+	}
+
+	Scene::update(dt);
 }
 
 
