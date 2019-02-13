@@ -6,6 +6,7 @@
 #include <iostream>
 #include <time.h> //Test to get time
 #include <chrono>
+#include "system_renderer.h"
 
 using namespace sf;
 using namespace std;
@@ -30,21 +31,33 @@ const int gameWidth = 800;
 const int gameHeight = 600;
 time_t beginTime = NULL;
 
-std::vector<Entity*> entities;
+//std::vector<Entity*> entities;
 
 
 std::vector<Ghost*> ghosts;
 
+EntityManager em;
 
-Player* player;
-Ghost* ghost;
+////Normal Pointers
+//Player* player;
+//Ghost* ghost;
+
+//Shared Pointers
+std::shared_ptr<Entity> player;
+std::shared_ptr<Entity> ghost;
+
+
+
 
 
 void Load() {
 	if (!playedBefore){
-		player = new Player();
-		
-		
+
+		////Normal Pointer
+		//player = new Player();
+
+		//Shared pointer
+		player = std::make_shared<Player>();
 		//ls::loadLevelFile("res/levels/maze_2.txt");
 		// Load font-face from res dir
 		font.loadFromFile("res/fonts/RobotoMono-Regular.ttf");
@@ -61,14 +74,26 @@ void Load() {
 
 
 	for (int i = 0; i < 4; i++) {
-		ghost = new Ghost();
+
+		////Normal Pointers
+		//ghost = new Ghost();
+		//entities.push_back(ghost);
+		//Shared Pointers
+		ghost = std::make_shared<Ghost>();
 		ghost->setPosition({ gameWidth / 2,gameHeight / 2 });
-		entities.push_back(ghost);
+		em.list.push_back(ghost);
 	}
 
+
 	player->setPosition({gameWidth/5.8,gameHeight/4});
+
+	//player->setPosition({400.f,400.f});
 	
-	entities.push_back(player);
+	////Normal Pointer
+	//entities.push_back(player);
+
+	//Shared POinter
+	em.list.push_back(player);
 	
 
 
@@ -86,7 +111,7 @@ void Load() {
 }
 //
 void Reset() {
-	entities.clear();
+	//entities.clear();
 	Load();
 }
 
@@ -111,20 +136,10 @@ void Update(RenderWindow &window) {
 		window.close();
 	}
 
-	for (auto &e : entities) {
-		e->update(dt);
-	}
+	em.update(dt);
 
-	//if (!player->validMove(player->getPosition())) {
-	//	playedBefore = true;
-	//	Reset();
-	//}
 
-	//if (ls::getTileAt(player->getPosition()) == ls::END) {
-	//	playedBefore = true;
-	//	
-	//	Reset();
-	//}
+
 
 }
 
@@ -133,66 +148,30 @@ void Update(RenderWindow &window) {
 
 void Render(RenderWindow &window) {
 
-	//draw input level
-	//ls::render(window);
-	// Draw Everything
-	for (auto &e : entities) {
-		e->render(window);
-	}
-	window.draw(text);
+	// Draw Everything using normal pointers
+	//for (auto &e : entities) {
+	//	e->render(window);
+	//}
+	//window.draw(text);
+	Renderer::queue(&text);
+	//Renderer::render();
+
+	em.render(window);
 
 }
 
-//void Render() {
-//	// Draw Everything
-//}
 
 int main() {
-	RenderWindow window(VideoMode(gameWidth, gameHeight), "TILE ENGINE MAZE");
+	RenderWindow window(VideoMode(gameWidth, gameHeight), "PAC-MAN");
 	Load();
 	while (window.isOpen()) {
 		window.clear();
 		Update(window);
 		Render(window);
 		window.display();
+
 	}
 	return 0;
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//
-//int main(){
-//  sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-//  sf::CircleShape shape(100.f);
-//  shape.setFillColor(sf::Color::Green);
-//
-//  while (window.isOpen()){
-//      sf::Event event;
-//      while (window.pollEvent(event)){
-//      if (event.type == sf::Event::Closed){
-//        window.close();
-//      }
-//    }
-//    window.clear();
-//    window.draw(shape);
-//    window.display();
-//  }
-//  return 0;
-//}
