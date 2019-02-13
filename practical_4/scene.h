@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 #include "Entity.h"
+#include "system_renderer.h"
 
 class Scene {
 public:
