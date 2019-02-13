@@ -73,7 +73,7 @@ void Load(RenderWindow &window) {
 	
 
 
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < 10; i++) {
 
 		////Normal Pointers
 		//ghost = new Ghost();
@@ -130,7 +130,6 @@ void Update(RenderWindow &window) {
 	}
 
 	em.update(dt);
-
 
 
 

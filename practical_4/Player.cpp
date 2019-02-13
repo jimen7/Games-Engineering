@@ -58,7 +58,7 @@ void Player::update(double dt) {
 }
 
 Player::Player()
-	: _speed(200.0f), Entity(make_unique<CircleShape>(25.f)) {
+	: _speed(200.0f), Entity(make_unique<CircleShape>(12.f)) {
 	_shape->setFillColor(Color::Yellow);
 	_shape->setOrigin(Vector2f(25.f, 25.f));
 }

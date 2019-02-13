@@ -49,12 +49,12 @@ void Ghost::update(double dt) {
 }
 
 Ghost::Ghost()
-	: _speed(200.0f), Entity(make_unique<CircleShape>(25.f)) {
+	: _speed(200.0f), Entity(make_unique<CircleShape>(12.f)) {
 	_shape->setFillColor(Color::Magenta);
 	_shape->setOrigin(Vector2f(25.f, 25.f));
 }
 
 void Ghost::render(sf::RenderWindow &window) const {
 	window.draw(*_shape);
-	Renderer::queue(_shape.get());
+	//Renderer::queue(_shape.get());
 }
