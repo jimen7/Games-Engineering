@@ -102,6 +102,7 @@ void GameScene::load() {
 		s->getShape().setOrigin(Vector2f(12.f, 12.f));
 
 		_ents.list.push_back(ghost);
+		ghosts.push_back(ghost);
 	}
 
 		respawn();
