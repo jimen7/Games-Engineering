@@ -48,12 +48,13 @@ bool Entity::isVisible() const { return _visible; }
 void Entity::setVisible(bool visible) { _visible = visible; }
 
 
-Entity::~Entity(){	
+Entity::~Entity(){	//This took me half an hour to write and I still don't understand fully, ASK SAM
+
 //In order for an Entity to be deleted, you have to loop through all the components and delete them individually. 
 //This happens because componenets might be co-dependent, so we loop through them erasing them until there are no more components to delete
 
-	int compNum = 0;
-	while (compNum!=_components.size())		//This took me half an hour to write and I still don't understand fully, ASK SAM
+	int compNum = 0;	//Current Component Size(basically)
+	while (compNum!=_components.size())		
 	{
 		compNum = _components.size();
 		_components.erase(	// Removes the elements in the range (first, last).
@@ -65,24 +66,51 @@ Entity::~Entity(){
 				_components.end()
 		);
 	}
+
+	if (_components.size() > 0) {
+		throw std::runtime_error(
+			"Can't delete entity, components being used somewhere");
+	}
+
+	_components.clear();
+
 }
 
 
 void EntityManager::render() {	
-	for (auto &e : list) {	//Iterate through the list to render
+	for (auto &e : list) {	//Iterate through the list to render only if the objects are on the screen
 		if (e->isVisible()) {	
 			e->render();
 		}
 	}
 }
 
+void EntityManager::update(double dt) {		//Needed to change due to componenets
 
+	for (size_t i; i < list.size();i++) {	//Need to change to basic for loop to delete next from list :(
+		
+		//Handles objects that are for deletion, then continues
+		if (list[i]->is_fordeletion) {
+			list.erase(list.begin()+i);	//This is why we needed advanced for loop, to find out posistion in list
+			--i;	//Go back to proper number for update
+			continue;
+		}
 
-void EntityManager::update(double dt) {
-	for (auto &e : list) {
-		e->update(dt);
+		//Update all object that should be updated and are alive
+		if (list[i]->isAlive()) {
+			list[i]->update(dt);
+		}
+
 	}
+
 }
+
+
+//void EntityManager::update(double dt) {	//Old method
+//	for (auto &e : list) {
+//		e->update(dt);
+//	}
+//}
 
 Component::Component(Entity *const p) : _parent(p), _fordeletion(false) {}
 
