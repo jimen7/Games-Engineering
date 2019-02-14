@@ -1,24 +1,16 @@
-/*
+#include "cmp_player_movement.h"
 
-#include "Player.h"
-using namespace sf;
 using namespace std;
+using namespace sf;
 
+PlayerMovementComponent::PlayerMovementComponent(Entity *e) : ActorMovementComponent(e) {}
 
-
-
-bool Player::validMove(sf::Vector2f pos) {
-	return (ls::getTileAt(pos) != ls::WALL);
-}
-
-void Player::update(double dt) {
-
-
+void PlayerMovementComponent::update(double dt) {
 	//Trying Vector to see if it accepts multoplocation with dt for move function
 	sf::Vector2f displacement = { 0.f,0.f, };
+
 	//Move in four directions based on keys
 
-	
 	//Move Down
 	if (Keyboard::isKeyPressed(Keyboard::Left)) {
 		displacement.x--;
@@ -44,29 +36,8 @@ void Player::update(double dt) {
 
 
 	//if (validMove(getPosition() + pos)) {
-		move(displacement*float(dt)*_speed);
+	move(displacement*float(dt)*_speed);
 	//}
-
-
-		
-
-		
-
-	
-
-		Entity::update(dt);
-
-}
-
-Player::Player()
-	: _speed(200.0f), Entity(make_unique<CircleShape>(12.f)) {
-	_shape->setFillColor(Color::Yellow);
-	_shape->setOrigin(Vector2f(25.f, 25.f));
-}
-
-void Player::render(sf::RenderWindow &window) const {
-	window.draw(*_shape);
 }
 
 
-*/
