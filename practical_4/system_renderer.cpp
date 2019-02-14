@@ -28,4 +28,6 @@ void Renderer::render() {
 	}
 }
 
-void Renderer::queue(const sf::Drawable *s) { sprites.push(s); }
+void Renderer::queue(const sf::Drawable *s) { 
+	sprites.push(s);
+}

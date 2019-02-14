@@ -27,8 +27,8 @@ const Keyboard::Key controls[5] = {
 	Keyboard::G,   // Enable/Disable AI
 };
 
-const int gameWidth = 800;
-const int gameHeight = 600;
+const int gameWidth = 700;
+const int gameHeight = 800;
 time_t beginTime = NULL;
 
 //std::vector<Entity*> entities;
@@ -99,7 +99,7 @@ void Load(RenderWindow &window) {
 	*/
 
 
-	//Renderer::initialise(window);
+	Renderer::initialise(window);
 
 	// Load Scene-Local Assets
 	gameScene.reset(new GameScene());
@@ -162,7 +162,7 @@ void Render(RenderWindow &window) {
 
 	/*em.render();*/
 	activeScene->render();
-	Renderer::initialise(window);
+	//Renderer::initialise(window);
 	Renderer::render();			//DEBUG HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
 
 }

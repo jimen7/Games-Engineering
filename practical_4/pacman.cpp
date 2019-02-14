@@ -26,11 +26,13 @@ void MenuScene::render() {
 	Scene::render();
 }
 
+
+
 void MenuScene::load() {
 	// Title text
-	Font font;
-	font.loadFromFile("res/fonts/RobotoMono-Regular.ttf");
-	text.setFont(font);
+	
+	_font.loadFromFile("res/fonts/RobotoMono-Regular.ttf");
+	text.setFont(_font);
 	text.setCharacterSize(24);
 	text.setString("Almost Pacman");
 	text.setPosition((800/*gamewidth*/ * 0.5f) - (text.getLocalBounds().width * 0.5f), 0);
@@ -51,7 +53,7 @@ void GameScene::respawn() {
 
 void GameScene::load() {
 	//Load Level
-	ls::loadLevelFile("res/levels/pacman.txt");
+	ls::loadLevelFile("res/levels/pacman.txt",25.0f);
 
 	//Set up player
 	player = std::make_shared<Player>();

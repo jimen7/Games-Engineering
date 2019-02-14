@@ -14,7 +14,7 @@ extern std::shared_ptr<Scene> activeScene;
 class MenuScene : public Scene {
 private:
 	sf::Text text;
-
+	sf::Font _font;
 public:
 	MenuScene() = default;
 	void update(double dt) override;
