@@ -5,7 +5,9 @@ using namespace sf;
 
 Entity::Entity() : _position({ 0.0f,0.0f }), _rotation(0.0f), _alive(true), _visible(true),_fordeletion(false){}
 
-const Vector2f& Entity::getPosition() const { return _position /*+ Vector2f(0.0f, 15.0f)*/; }	//For some reason, if I add offset, it renders from 00, even if the offset is (0,0)
+const Vector2f& Entity::getPosition() const { return (_position); }	//BEFORE DEBUG>>WALL WORKING
+//const Vector2f Entity::getPosition() const { return (_position + Vector2f(0.0f, 30.0f)); } // Doesn't start from top left, but doesn't actually change
+
 
 void Entity::setPosition(const Vector2f &pos) { _position = pos /*+ Vector2f(0.0f, 15.0f)*/; }		//BUT WORKS HER? WHAT? ASK SAM
 

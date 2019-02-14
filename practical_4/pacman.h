@@ -4,6 +4,8 @@
 #include "scene.h"
 #include "LevelSystem.h"
 #include "cmp_sprite.h"
+#include "cmp_player_movement.h"
+#include "cmp_enemy_ai.h"
 //#include "Player.h"
 //#include "Ghost.h"
 

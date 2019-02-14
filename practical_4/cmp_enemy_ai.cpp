@@ -5,6 +5,8 @@ using namespace sf;
 
 float value = 0.0f;
 
+EnemyAIComponent::EnemyAIComponent(Entity *e) : ActorMovementComponent(e),_speed(100.f),_time(0.f) {}
+
 void EnemyAIComponent::update(double dt) {
 	_time += dt;
 	if (_time > 2.0f) {

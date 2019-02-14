@@ -8,6 +8,8 @@ protected:
 	float _speed;
 	float _time;
 public:
+	explicit EnemyAIComponent(Entity *e);
+	EnemyAIComponent() = delete;
 	void update(double dt) override;
 	
 };

@@ -82,6 +82,8 @@ void GameScene::load() {
 		s->getShape().setFillColor(Color::Yellow);
 		s->getShape().setOrigin(Vector2f(12.f, 12.f));
 
+		player->addComponent<PlayerMovementComponent>();
+
 		_ents.list.push_back(player);
 	}
 
@@ -100,6 +102,8 @@ void GameScene::load() {
 		s->setShape<sf::CircleShape>(12.f);
 		s->getShape().setFillColor(ghost_cols[i % 4]);
 		s->getShape().setOrigin(Vector2f(12.f, 12.f));
+
+		ghost->addComponent<EnemyAIComponent>();
 
 		_ents.list.push_back(ghost);
 		ghosts.push_back(ghost);
