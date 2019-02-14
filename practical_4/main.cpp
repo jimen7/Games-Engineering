@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
-#include "Entity.h"
+//#include "Entity.h"
+#include "ecm.h"	//Use this instead of entity now
 #include "Player.h"
 #include "LevelSystem.h"
 #include "Ghost.h"
@@ -8,6 +9,7 @@
 #include <chrono>
 #include "system_renderer.h"
 #include "pacman.h"
+
 
 using namespace sf;
 using namespace std;

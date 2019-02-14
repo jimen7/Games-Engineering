@@ -1,7 +1,8 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <memory>
-#include "Entity.h"
+//#include "Entity.h"
+#include "ecm.h"
 #include "system_renderer.h"
 
 class Scene {

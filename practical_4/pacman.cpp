@@ -35,7 +35,7 @@ void MenuScene::load() {
 	text.setFont(_font);
 	text.setCharacterSize(24);
 	text.setString("Almost Pacman");
-	text.setPosition((800/*gamewidth*/ * 0.5f) - (text.getLocalBounds().width * 0.5f), 0);
+	text.setPosition((400/*gamewidth*/ * 0.5f) - (text.getLocalBounds().width * 0.5f), 0);
 }
 
 

@@ -1,5 +1,6 @@
 #pragma once
-#include "entity.h"
+//#include "entity.h"
+#include "ecm.h"
 #include "LevelSystem.h"
 #include "system_renderer.h"
 
