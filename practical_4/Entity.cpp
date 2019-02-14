@@ -1,4 +1,6 @@
-#include "entity.h"
+/*
+
+include "entity.h"
 using namespace std;
 using namespace sf;
 
@@ -33,3 +35,5 @@ void EntityManager::update(double dt) {
 		e->update(dt);
 	}
 }
+
+*/

@@ -87,10 +87,10 @@ void EntityManager::render() {
 
 void EntityManager::update(double dt) {		//Needed to change due to componenets
 
-	for (size_t i; i < list.size();i++) {	//Need to change to basic for loop to delete next from list :(
+	for (size_t i = 0; i < list.size();i++) {	//Need to change to basic for loop to delete next from list :(
 		
 		//Handles objects that are for deletion, then continues
-		if (list[i]->is_fordeletion) {
+		if (list[i]->is_fordeletion()) {
 			list.erase(list.begin()+i);	//This is why we needed advanced for loop, to find out posistion in list
 			--i;	//Go back to proper number for update
 			continue;

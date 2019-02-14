@@ -1,3 +1,5 @@
+/*
+
 #include "Player.h"
 using namespace sf;
 using namespace std;
@@ -66,3 +68,6 @@ Player::Player()
 void Player::render(sf::RenderWindow &window) const {
 	window.draw(*_shape);
 }
+
+
+*/

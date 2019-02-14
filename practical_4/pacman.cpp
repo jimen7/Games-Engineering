@@ -1,10 +1,14 @@
 #include "pacman.h"
 
+
+#define GHOSTS_COUNT 4
+
 using namespace sf;
-std::shared_ptr<Player> player;	//NEED TO CHANGE THIS TO ENTITY AFTER CHANGING MAIN.CPP
+using namespace std;
+std::shared_ptr<Entity> player;	//Changed this to entity pointers from PLayer
 std::vector<std::shared_ptr<Entity>> ghosts;
 
-int ghostCount = 4;
+//int ghostCount = 4;	//Before ECM and GHOST_COUNT definition
 
 //NEED TO REDIFINE THIS AS THEY ARE EXTERN'D
 std::shared_ptr<Scene> gameScene;
@@ -46,7 +50,7 @@ void GameScene::respawn() {
 
 	auto ghost_spawns = ls::findTiles(ls::ENEMY);
 	for (auto& g : ghosts) {
-		g->setPosition(ls::getTilePosition(ghost_spawns[rand() % ghostCount]));
+		g->setPosition(ls::getTilePosition(ghost_spawns[rand() % GHOSTS_COUNT]));
 	}
 }
 
@@ -55,19 +59,50 @@ void GameScene::load() {
 	//Load Level
 	ls::loadLevelFile("res/levels/pacman.txt",25.0f);
 
-	//Set up player
-	player = std::make_shared<Player>();
-	//Push player back to entity manager list
-	_ents.list.push_back(player);
+
+	////Before ecm player set-up
+	//player = std::make_shared<Player>();
+	////Push player back to entity manager list
+	//_ents.list.push_back(player);
 
 
-	//Set up ghosts
-		for (int i = 0; i < ghostCount;i++) {
-			auto ghost = std::make_shared<Ghost>();
-			_ents.list.push_back(ghost);
-			ghosts.push_back(ghost);
-	}
+	////Before ecm ghost set-up
+	//	for (int i = 0; i < ghostCount;i++) {
+	//		auto ghost = std::make_shared<Ghost>();
+	//		_ents.list.push_back(ghost);
+	//		ghosts.push_back(ghost);
+	//	}
 	
+	//Setting up player using cmp_sprite and ecm library
+	{
+		player = make_shared<Entity>();
+
+		auto s = player->addComponent<ShapeComponent>();
+		s->setShape<sf::CircleShape>(12.f);
+		s->getShape().setFillColor(Color::Yellow);
+		s->getShape().setOrigin(Vector2f(12.f, 12.f));
+
+		_ents.list.push_back(player);
+	}
+
+
+	//Ghost colours
+	const sf::Color ghost_cols[]{ {208, 62, 25},    // red Blinky
+							   {219, 133, 28},   // orange Clyde
+							   {70, 191, 238},   // cyan Inky
+							   {234, 130, 229} }; // pink Pinky
+
+
+	//Setting up ghosts using cmp_sprite and acm library
+	for (int i = 0; i < GHOSTS_COUNT; ++i) {
+		auto ghost = make_shared<Entity>();
+		auto s = ghost->addComponent<ShapeComponent>();
+		s->setShape<sf::CircleShape>(12.f);
+		s->getShape().setFillColor(ghost_cols[i % 4]);
+		s->getShape().setOrigin(Vector2f(12.f, 12.f));
+
+		_ents.list.push_back(ghost);
+	}
 
 		respawn();
 }

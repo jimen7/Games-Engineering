@@ -3,8 +3,9 @@
 #include <iostream>
 #include "scene.h"
 #include "LevelSystem.h"
-#include "Player.h"
-#include "Ghost.h"
+#include "cmp_sprite.h"
+//#include "Player.h"
+//#include "Ghost.h"
 
 extern std::shared_ptr<Scene> gameScene;
 extern std::shared_ptr<Scene> menuScene;

@@ -1,3 +1,5 @@
+/*
+
 #include "Ghost.h"
 using namespace sf;
 using namespace std;
@@ -58,3 +60,5 @@ void Ghost::render(sf::RenderWindow &window) const {
 	window.draw(*_shape);
 	//Renderer::queue(_shape.get());
 }
+
+*/

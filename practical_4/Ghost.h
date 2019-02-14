@@ -1,3 +1,4 @@
+/*
 #pragma once
 //#include "entity.h"
 #include "ecm.h"
@@ -16,3 +17,5 @@ public:
 	void render(sf::RenderWindow &window) const override;
 	bool validMove(sf::Vector2f pos);
 };
+
+*/
