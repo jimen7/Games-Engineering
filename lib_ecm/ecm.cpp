@@ -47,9 +47,32 @@ bool Entity::isVisible() const { return _visible; }
 
 void Entity::setVisible(bool visible) { _visible = visible; }
 
-void EntityManager::render() {	//was working
-	for (auto &e : list) {
-		e->render();
+
+Entity::~Entity(){	
+//In order for an Entity to be deleted, you have to loop through all the components and delete them individually. 
+//This happens because componenets might be co-dependent, so we loop through them erasing them until there are no more components to delete
+
+	int compNum = 0;
+	while (compNum!=_components.size())		//This took me half an hour to write and I still don't understand fully, ASK SAM
+	{
+		compNum = _components.size();
+		_components.erase(	// Removes the elements in the range (first, last).
+			remove_if( //Removes all elements satisfying specific criteria, in this case where predicate returns true..
+				_components.begin(),
+				_components.end(),
+				[](auto &current) { return (current.use_count() <= 1); } //use_count returns the number of different shared_ptr instances managing the current object.
+			),
+				_components.end()
+		);
+	}
+}
+
+
+void EntityManager::render() {	
+	for (auto &e : list) {	//Iterate through the list to render
+		if (e->isVisible()) {	
+			e->render();
+		}
 	}
 }
 
@@ -63,4 +86,6 @@ void EntityManager::update(double dt) {
 
 Component::Component(Entity *const p) : _parent(p), _fordeletion(false) {}
 
-Entity::~Entity(){}
+bool Component::is_fordeletion() const { return _fordeletion; }
+
+Component::~Component() {}
