@@ -7,9 +7,9 @@ void Scene::update(double dt) {
 	_ents.update(dt);
 }
 
-//std::vector<std::shared_ptr<Entity>> Scene::getEnts() {
-//	return ;
-//}
+std::vector<std::shared_ptr<Entity>> &Scene::getEnts() {
+	return _ents.list;
+}
 
 void Scene::render() { _ents.render(); }		//This does not work, it should not work, but it's given to us. Why?
 
