@@ -49,10 +49,14 @@ void GameScene::respawn() {
 
 	//player = std::make_shared<Player>();
 	player->setPosition(ls::getTilePosition(ls::findTiles(ls::START)[0]));
+	player->GetCompatibleComponent<ActorMovementComponent>()[0]->setSpeed(150.f);
 
 	auto ghost_spawns = ls::findTiles(ls::ENEMY);
 	for (auto& g : ghosts) {
-		g->setPosition(ls::getTilePosition(ghost_spawns[rand() % GHOSTS_COUNT]));
+		g->setPosition(ls::getTilePosition(ghost_spawns[rand() % GHOSTS_COUNT]));	//GHOST_COUNT could be "ghosts_spawns.size()"
+		g->GetCompatibleComponent<ActorMovementComponent>()[0]->setSpeed(100.0f);
+		//g->setAlive(true);
+		//g->setVisible(true);
 	}
 }
 
