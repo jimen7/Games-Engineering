@@ -15,6 +15,8 @@ std::shared_ptr<Scene> gameScene;
 std::shared_ptr<Scene> menuScene;
 std::shared_ptr<Scene> activeScene;
 
+Vector2f offset = Vector2f(0.f, 30.f);
+
 void MenuScene::update(double dt) {
 
 	if (Keyboard::isKeyPressed(Keyboard::Space)) {
@@ -127,7 +129,7 @@ void GameScene::update(double dt) {
 
 	// Reset game when ghost hists pacman
 	for (auto& g : ghosts) {
-		if (length(g->getPosition() - player->getPosition()) < 30.f) {
+		if (length( (g->getPosition()/*-offset*/) - (player->getPosition()/*-offset*/) ) < 30.f) {
 			respawn();
 		}
 	}
