@@ -11,9 +11,17 @@ SET(OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/")
 # Ouput all DLLs from all libs into main build folder
 SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${OUTPUT_DIRECTORY})
 
-#### Add External Dependencies ####
+######## Add External Dependencies ############
+##SFML
 add_subdirectory("lib/sfml")
 set(SFML_INCS "lib/sfml/include")
+link_directories("${CMAKE_BINARY_DIR}/lib/sfml/lib")
+
+##B2B Physics Library
+# B2D - Box2D phyics library
+add_subdirectory("lib/b2d/Box2D")
+#include_directories("lib/b2d/Box2D/")
+set(B2D_INCS "lib/b2d/Box2D/")
 link_directories("${CMAKE_BINARY_DIR}/lib/sfml/lib")
 
 
@@ -84,6 +92,20 @@ add_dependencies(PRACTICAL_4 copy_resources)
 
 
 set_target_properties(PRACTICAL_4
+    PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY
+    ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$(Configuration)
+)
+
+
+#### Practical 5 ####
+file(GLOB_RECURSE SOURCES practical_5/*.cpp practical_5/*.h)
+add_executable(PRACTICAL_5 ${SOURCES})
+target_include_directories(PRACTICAL_5 SYSTEM PRIVATE ${SFML_INCS} ${B2D_INCS})
+target_link_libraries(PRACTICAL_5 sfml-graphics Box2D)
+set(EXECUTABLES ${EXECUTABLES} PRACTICAL_5_PHYSICS)
+
+
+set_target_properties(PRACTICAL_5
     PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY
     ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$(Configuration)
 )
