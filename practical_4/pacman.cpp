@@ -1,5 +1,6 @@
 #include "pacman.h"
-
+#include "cmp_enemy_ai.h"
+#include "cmp_pickup.h"
 
 #define GHOSTS_COUNT 4
 
@@ -7,6 +8,27 @@ using namespace sf;
 using namespace std;
 std::shared_ptr<Entity> player;	//Changed this to entity pointers from PLayer
 std::vector<std::shared_ptr<Entity>> ghosts;
+vector<shared_ptr<Entity>> nibbles;
+
+
+shared_ptr<Entity> makeNibble(const Vector2ul& nl, bool big) {
+	auto cherry = make_shared<Entity>();
+	auto s = cherry->addComponent<ShapeComponent>();
+	//set colour
+	if (!big) {
+		s->setShape<sf::CircleShape>(2.f);
+		s->getShape().setFillColor(Color::White);
+	}
+	else {
+		s->setShape<sf::CircleShape>(4.f);
+		s->getShape().setFillColor(Color::Blue);
+	}
+
+
+	cherry->addComponent<PickupComponent>(big);
+	cherry->setPosition(ls::getTilePosition(nl) + Vector2f(10.f, 35.f));
+	return cherry;
+}
 
 //int ghostCount = 4;	//Before ECM and GHOST_COUNT definition
 
@@ -58,6 +80,30 @@ void GameScene::respawn() {
 		//g->setAlive(true);
 		//g->setVisible(true);
 	}
+
+	//clear any remaining nibbles
+	for (auto n : nibbles) {
+		n->setForDelete();
+		n.reset();
+	}
+	nibbles.clear();
+
+	//white nibbles
+	auto nibbleLoc = LevelSystem::findTiles(LevelSystem::EMPTY);
+	for (const auto& nl : nibbleLoc) {
+		auto cherry = makeNibble(nl, false);
+		//add to _ents and nibbles list
+		_ents.list.push_back(cherry);
+		nibbles.push_back(cherry);
+	}
+	//blue nibbles
+	nibbleLoc = LevelSystem::findTiles(LevelSystem::WAYPOINT);
+	for (const auto& nl : nibbleLoc) {
+		auto cherry = makeNibble(nl, true);
+		//add to _ents and nibbles list
+		_ents.list.push_back(cherry);		//NEED TO CHANGE FOPR
+		nibbles.push_back(cherry);
+	}
 }
 
 
@@ -84,6 +130,7 @@ void GameScene::load() {
 		player = make_shared<Entity>();
 
 		auto s = player->addComponent<ShapeComponent>();
+		//player->addComponent<PlayerMovementComponent>();
 		s->setShape<sf::CircleShape>(12.f);
 		s->getShape().setFillColor(Color::Yellow);
 		s->getShape().setOrigin(Vector2f(12.f, 12.f));

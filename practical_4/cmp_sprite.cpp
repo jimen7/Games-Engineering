@@ -1,5 +1,6 @@
 #include "cmp_sprite.h"
 
+
 using namespace std;
 
 //void SpriteComponent::update(double dt) {		//Was given to us like this, think it was a mistake

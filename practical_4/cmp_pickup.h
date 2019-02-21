@@ -8,14 +8,11 @@
 class PickupComponent :public Component {
 protected:
 	int _score;
-	EntityManager _temp_emp;
+	bool _big;
 public:
 	PickupComponent() = delete;
-	explicit PickupComponent(Entity *p);
-	void setTempEmp(EntityManager *e);
-
-
+	explicit PickupComponent(Entity *p, bool big);
 	void update(double dt) override;
-	//void render() override;
+	void render()  override {};
 
 };

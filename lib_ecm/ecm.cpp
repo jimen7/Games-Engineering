@@ -2,6 +2,7 @@
 
 using namespace std;
 using namespace sf;
+const Vector2f troffset = Vector2f(0.0f,30.0f);
 
 Entity::Entity() : _position({ 0.0f,0.0f }), _rotation(0.0f), _alive(true), _visible(true),_fordeletion(false){}
 
